@@ -40,7 +40,7 @@ INSERT INTO [dbo].[RankHistory]
            ,[SearchDate])
      VALUES
            (14
-           ,'https://www.google.co.uk/search?num=100&q=land+registry+search'
+           ,'https://www.google.co.uk/search?num=100&q=conveyancing'
            ,'conveyancing'
            ,150
            ,'04-Apr-2025')
