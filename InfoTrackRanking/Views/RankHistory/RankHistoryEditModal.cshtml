@@ -1,0 +1,109 @@
+﻿@model RankHistoryViewModel
+
+<style>
+    /* Modal Background Overlay */
+    .modal {
+        display: none; /* Initially hidden */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Modal Container */
+    .modal-overlay {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 400px;
+        width: 100%;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+        /* Form Styling */
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .modal-content label {
+            font-weight: bold;
+            text-align: left;
+            display: block;
+            margin-top: 8px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Button Styles */
+        .modal-content button {
+            margin-top: 15px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+</style>
+
+<!-- Modal -->
+<div id="rankHistoryModal" class="modal">
+    <div class="modal-overlay">
+        <div class="modal-content">
+            <h4 id="modalTitle">@((Model.Id > 0) ? "Edit Rank History" : "Create Rank History")</h4>
+            <form id="rankHistoryForm" method="post" asp-controller="RankHistory">
+                <input type="hidden" id="rankHistoryId" name="Id" value="@Model.Id" />
+
+                <label for="rank">Rank(s):</label>
+                <input type="text" id="rank" name="Ranks" value="@Model.Ranks" required />
+
+                <label for="keywords">Keyword(s):</label>
+                <input type="text" id="keywords" name="Keywords" value="@Model.Keywords" required />
+
+                <label for="url">URL:</label>
+                <input type="text" id="url" name="Url" value="@Model.URL" required />
+
+                <label for="numberOfSearchResults">Number Of Search Results:</label>
+                <input type="number" id="numberOfSearchResults" name="NumberOfSearchResults" value="@Model.NumberOfSearchResults" required />
+
+                <!-- Conditionally show SearchDate based on the form mode -->
+                <div id="searchDateField" class="form-group">
+                    <label for="searchDate">Search Date:</label>
+                    <input type="date" id="searchDate" name="SearchDate" value="@Model.SearchDate.ToString("yyyy-MM-dd")" required />
+                </div>
+
+                <button type="submit" class="btn btn-success">Save</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
+            </form>
+        </div>
+    </div>
+</div>

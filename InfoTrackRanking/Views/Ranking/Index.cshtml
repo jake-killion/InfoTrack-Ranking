@@ -1,0 +1,82 @@
+﻿@model RankingViewModel
+
+@{
+	ViewData["Title"] = "Home Page";
+}
+
+<h1 class="display-4">InfoTrack Ranking Tracker</h1>
+
+<form asp-action="Index" method="post" class="p-4 border rounded shadow-sm bg-light" id="searchForm">
+	<div class="row mb-3">
+		<div class="col-md-4">
+			<label for="Keyword" class="form-label fw-bold">Keyword(s):</label>
+			<input type="text" asp-for="Keywords" class="form-control" placeholder="Please enter Keyword(s)..." required />
+		</div>
+
+		<div class="col-md-3">
+			<label for="Url" class="form-label fw-bold">URL:</label>
+			<input type="text" value="https://www.google.co.uk" class="form-control" readonly />
+		</div>
+
+		<div class="col-md-3">
+			<label for="NumberOfSearchResults" class="form-label fw-bold">Number of Search Results:</label>
+			<input type="number" asp-for="NumberOfSearchResults" class="form-control" min="1" placeholder="Enter number..." required />
+		</div>
+		<div class="col-md-2 d-flex align-items-end">
+			<button type="submit" class="btn btn-primary w-100">Search</button>
+		</div>
+	</div>
+</form>
+
+
+<p id="loadingText" class="text-center fw-bold mt-3" style="display: none;">Search started...</p>
+
+<div id="loadingBarContainer" class="mt-3" style="display: none;">
+	<div class="progress">
+		<div class="progress-bar progress-bar-striped progress-bar-animated"
+			 role="progressbar" style="width: 100%"></div>
+	</div>
+</div>
+
+@if (Model != null && Model.Rankings != null)
+{
+	<hr />
+	<div class="card shadow-sm mt-4">
+		<div class="card-body">
+			<h3 class="card-title">Search Results</h3>
+			<p><strong>Keyword:</strong> @Model.Keywords</p>
+			<p><strong>URL:</strong> @Model.Url</p>
+			<p><strong>Rankings:</strong> @(Model.Rankings.Any() ? string.Join(", ", Model.Rankings) : "0 (Not Found)")</p>
+			<p><strong>Number Of Search Results:</strong> @Model.NumberOfSearchResults</p>
+		</div>
+	</div>
+}
+
+@section Scripts {
+	<script>
+		document.getElementById("searchForm").addEventListener("submit", function () {
+			// Show loading UI
+			document.getElementById("loadingBarContainer").style.display = "block";
+			document.getElementById("loadingText").style.display = "block";
+
+			// Rotating Text Messages
+			let messages = [
+				"Setting up Google counter-block measures...",
+				"Analyzing search engine data...",
+				"Almost there..."
+			];
+			let index = 0;
+			let loadingText = document.getElementById("loadingText");
+
+			let interval = setInterval(function () {
+				loadingText.textContent = messages[index];
+				index++;
+
+				if (index >= messages.length) {
+					clearInterval(interval);
+					loadingText.textContent = messages[messages.length - 1]; // Keep the last message while it finishes
+				}
+			}, 1500);
+		});
+	</script>
+}

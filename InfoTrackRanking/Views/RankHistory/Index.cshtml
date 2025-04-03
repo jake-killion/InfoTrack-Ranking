@@ -1,0 +1,101 @@
+﻿@model List<RankHistoryViewModel>
+
+@{
+	ViewBag.Title = "Rank History";
+}
+
+<h2>Rank Histories</h2>
+
+<button id="openCreateModal" class="btn btn-primary" onclick="openCreateModal()">+</button>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Rank</th>
+			<th>Keyword(s)</th>
+			<th>URL</th>
+			<th>Number Of Search Results</th>
+			<th>Search Date</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var rankHistory in Model)
+		{
+			string ranks = string.IsNullOrEmpty(rankHistory.Ranks) ? "0 (Not Found)" : rankHistory.Ranks;
+			string formattedSearchDate = rankHistory.SearchDate.ToString("yyyy-MM-dd"); // Format the date for JS
+
+			<tr>
+				<td>@ranks</td>
+				<td>@rankHistory.Keywords</td>
+				<td>@rankHistory.URL</td>
+				<td>@rankHistory.NumberOfSearchResults</td>
+				<td>@rankHistory.SearchDate.ToString("dd-MMM-yyyy HH:mm:ss")</td>
+				<td>
+					<a href="javascript:void(0)" class="btn btn-warning editRankHistory"
+					   onclick="openEditModal(@rankHistory.Id, '@ranks', '@rankHistory.Keywords', '@rankHistory.URL', '@rankHistory.NumberOfSearchResults', '@formattedSearchDate')">✏</a>
+					<form method="post" asp-action="Delete" asp-route-id="@rankHistory.Id" class="d-inline">
+						<button type="submit" class="btn btn-danger">🗑</button>
+					</form>
+				</td>
+			</tr>
+		}
+
+	</tbody>
+</table>
+
+<!-- Render the Modal Partial -->
+@{
+	Html.RenderPartial("RankHistoryEditModal", new RankHistoryViewModel());
+}
+
+@section Scripts {
+	<script>
+		function openCreateModal() {
+			document.getElementById('rankHistoryModal').style.display = 'block';
+			document.getElementById('modalTitle').innerText = "Create Rank History";
+			document.getElementById('rankHistoryForm').action = '@Url.Action("Create", "RankHistory")';
+
+			// Show the searchDate input for Create mode
+			document.getElementById('searchDateField').style.display = 'block';
+
+			// Clear all input fields
+			document.getElementById('rankHistoryId').value = '';
+			document.getElementById('rank').value = '';
+			document.getElementById('keywords').value = '';
+			document.getElementById('url').value = '';
+			document.getElementById('numberOfSearchResults').value = '';
+			document.getElementById('searchDate').value = '';
+		}
+
+		// Function to open the edit modal
+		function openEditModal(id, ranks, keywords, url, numberOfSearchResults, searchDate) {
+			let modal = document.getElementById('rankHistoryModal');
+			let title = document.getElementById('modalTitle');
+			let form = document.getElementById('rankHistoryForm');
+
+			if (!modal || !title || !form) {
+				console.error("Modal elements not found in the DOM.");
+				return;
+			}
+
+			modal.style.display = 'block';
+			title.innerText = "Edit Rank History";
+			form.action = '/RankHistory/Edit';  // Set form action for Edit
+
+			// Hide the searchDate input for Edit mode
+			document.getElementById('searchDateField').style.display = 'none';
+
+			// Populate the input fields
+			document.getElementById('rankHistoryId').value = id;
+			document.getElementById('rank').value = ranks;
+			document.getElementById('keywords').value = keywords;
+			document.getElementById('url').value = url;
+			document.getElementById('numberOfSearchResults').value = numberOfSearchResults;
+			document.getElementById('searchDate').value = searchDate;
+		}
+
+		function closeModal() {
+			document.getElementById('rankHistoryModal').style.display = 'none';
+		}
+	</script>
+}
