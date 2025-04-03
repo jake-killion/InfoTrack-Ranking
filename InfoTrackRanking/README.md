@@ -44,4 +44,3 @@ INSERT INTO [dbo].[RankHistory]
            ,'conveyancing'
            ,150
            ,'04-Apr-2025')
-
