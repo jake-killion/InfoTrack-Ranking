@@ -1,5 +1,4 @@
-﻿To setup, log onto MSSQL, type "localhost\SQLEXPRESS" as the Server name, and select Windows Authentication.
-Next, create a new query and run the following script to create the database, table, plus some sample data:
+Please log on to your local instance of sql express, open a new query and run the following script to create the database, table, plus some sample data:
 
 CREATE DATABASE InfoTrackRankingDB;
 
