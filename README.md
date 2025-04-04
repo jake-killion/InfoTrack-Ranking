@@ -1,4 +1,11 @@
-Please log on to your local instance of sql express, open a new query and run the following script to create the database, table, plus some sample data:
+Pre requisites:
+- VS 2022
+- SQLExpress or other db server
+
+Install steps:
+Please change the Server name in the appsettings' Connection String to your db server name.
+Run a dotnet restore to ensure all dependencies are loaded.
+Finally, please log on to your local instance of sql express, or other db server, open a new query and run the below script to create the database, table, plus some sample data.
 
 CREATE DATABASE InfoTrackRankingDB;
 GO
