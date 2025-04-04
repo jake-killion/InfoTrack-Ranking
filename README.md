@@ -1,8 +1,10 @@
 Please log on to your local instance of sql express, open a new query and run the following script to create the database, table, plus some sample data:
 
 CREATE DATABASE InfoTrackRankingDB;
+GO
 
 USE InfoTrackRankingDB;
+GO
 
 CREATE TABLE [dbo].[RankHistory](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
